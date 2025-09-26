@@ -19,7 +19,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- AOS -->
+  <!-- AOS (Scroll Animations) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
 
   <!-- Lottie Player (Hero) -->
@@ -29,83 +29,113 @@
 
   <style>
     :root{
-      --brand:#015C8B;
-      --brand-2:#099BEB;
-      --ink:#0b0f14;
-      --muted:#7c8a9a;
-      --bg:#ffffff;
-      --card:#f6f9fc;
+      --brand:#015C8B;     /* Primary Blue */
+      --brand-2:#099BEB;   /* Accent Blue */
+      --ink:#0b0f14;       /* Body text */
+      --muted:#7c8a9a;     /* Subtext */
+      --bg:#ffffff;        /* Page BG */
+      --card:#f6f9fc;      /* Card BG */
       --ring:rgba(1,92,139,.25);
       --radius:22px;
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:var(--bg);color:var(--ink);scroll-behavior:smooth}
 
+    /* Utility */
     .container{width:min(1200px,92vw);margin:0 auto}
-    .btn{display:inline-flex;gap:.6rem;align-items:center;justify-content:center;padding:.9rem 1.15rem;border-radius:999px;border:1px solid transparent;font-weight:600;transition:.25s;cursor:pointer;text-decoration:none}
+    .btn{display:inline-flex;gap:.6rem;align-items:center;justify-content:center;padding:.9rem 1.15rem;border-radius:999px;border:1px solid transparent;font-weight:600;transition:.25s transform,.25s box-shadow,.25s background,.25s border-color;cursor:pointer;text-decoration:none}
+    .btn:focus{outline:3px solid var(--ring)}
     .btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 24px rgba(1,92,139,.28)}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(1,92,139,.36)}
     .btn-ghost{background:transparent;color:var(--brand);border-color:var(--brand)}
     .btn-ghost:hover{background:rgba(1,92,139,.06)}
     .chip{display:inline-block;background:#e8f5ff;color:var(--brand);padding:.4rem .8rem;border-radius:999px;font-weight:600;font-size:.85rem;border:1px solid rgba(1,92,139,.2)}
     .card{background:var(--card);border:1px solid rgba(12,42,64,.06);border-radius:var(--radius);box-shadow:0 10px 30px rgba(1,92,139,.06)}
+    .shadow-soft{box-shadow:0 10px 30px rgba(11,15,20,.06)}
 
+    /* Navbar */
     .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.78);backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid rgba(11,15,20,.06)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
-    .brand img{height:46px;width:auto}
+    .brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+    .brand img{height:46px;width:auto;object-fit:contain}
     .nav-links{display:flex;gap:1rem}
     .nav-links a{color:var(--ink);text-decoration:none;font-weight:600;padding:.55rem .8rem;border-radius:12px}
     .nav-links a:hover{background:#f0f6fb}
     .hamburger{display:none;background:transparent;border:0;font-size:1.4rem}
 
+    /* Hero */
     .hero{position:relative;min-height:86vh;display:grid;place-items:center;background:
       radial-gradient(1200px 600px at 10% 10%, rgba(9,155,235,.07), transparent 60%),
       radial-gradient(1200px 600px at 90% 20%, rgba(1,92,139,.07), transparent 60%),
-      linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);}
-    .hero::after{content:"";position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;opacity:.08;mix-blend:multiply}
+      linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);
+      overflow:hidden}
+    .hero::after{content:"";position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;opacity:.08;mix-blend:multiply;pointer-events:none}
     .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center}
-    .title{font-weight:800;font-size:clamp(2rem,4.5vw,3.8rem)}
+    .eyebrow{margin:.2rem 0 1rem 0}
+    .title{font-weight:800;font-size:clamp(2rem,4.5vw,3.8rem);line-height:1.1;letter-spacing:.2px}
     .subtitle{color:var(--muted);font-size:clamp(1rem,2.2vw,1.15rem);margin:1rem 0 1.5rem}
     .cta{display:flex;gap:.8rem;flex-wrap:wrap}
     .lottie-wrap{display:flex;align-items:center;justify-content:center}
 
+    /* Brand association strip */
     .brands{height:200px;background:#fff;border-top:1px solid rgba(11,15,20,.06);border-bottom:1px solid rgba(11,15,20,.06);display:grid;place-items:center}
     .marquee{display:flex;gap:3rem;align-items:center;animation:scroll 28s linear infinite}
-    .marquee img{height:44px;opacity:.75;filter:grayscale(1)}
+    .marquee img{height:44px;opacity:.75;filter:grayscale(1);transition:opacity .2s, filter .2s}
     .marquee img:hover{opacity:1;filter:grayscale(0)}
     @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
+    /* Sections */
     section{padding:clamp(56px,7vh,96px) 0}
     .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
     .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}
-    .split{display:grid;grid-template-columns:1.1fr .9fr;gap:1.4rem;align-items:center}
 
-    .course{padding:1.1rem;border-radius:var(--radius)}
+    /* Course cards */
+    .course{padding:1.1rem;border-radius:var(--radius);position:relative;overflow:hidden}
     .course h4{margin:.4rem 0 .2rem}
     .course p{color:var(--muted);font-size:.95rem;margin:0}
     .tag{position:absolute;top:14px;right:14px;background:#fff;border:1px solid rgba(1,92,139,.18);padding:.3rem .6rem;border-radius:999px;font-size:.8rem;color:var(--brand);font-weight:700}
 
+    /* Parallax split (About Life Education) */
+    .split{display:grid;grid-template-columns:1.1fr .9fr;gap:1.4rem;align-items:center}
+    .parallax{border-radius:var(--radius);height:360px;background:url('https://images.unsplash.com/photo-1607971268367-8b63b3aa3c07?q=80&w=1600&auto=format&fit=crop') center/cover fixed}
+
+    /* Testimonials */
     .quote{font-size:1.1rem;line-height:1.65;background:#fff;border-left:4px solid var(--brand);padding:1rem 1.25rem;border-radius:14px}
     .quote small{display:block;margin-top:.75rem;color:var(--muted);font-weight:600}
 
+    /* Footer */
     footer{background:#0e2433;color:#e9f4ff}
     .footer-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;padding:2.2rem 0}
     footer a{color:#e9f4ff;text-decoration:none}
 
-    .field{width:100%;padding:.9rem 1rem;border-radius:14px;border:1px solid rgba(11,15,20,.12);background:#fff}
+    /* Forms */
+    .field{width:100%;padding:.9rem 1rem;border-radius:14px;border:1px solid rgba(11,15,20,.12);background:#fff;transition:.2s;border-color:rgba(11,15,20,.12)}
     .field:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--ring)}
+    label{display:block;font-weight:600;margin:.6rem 0 .35rem}
 
-    @media(max-width:980px){.hero-grid,.split,.grid-2{grid-template-columns:1fr}.nav-links{display:none}.hamburger{display:block}}
-    @media(max-width:760px){.grid-3{grid-template-columns:1fr}.brands{height:160px}}
+    /* Responsive */
+    @media (max-width:980px){
+      .hero-grid,.split,.grid-2{grid-template-columns:1fr}
+      .nav-links{display:none}
+      .hamburger{display:block}
+    }
+    @media (max-width:760px){
+      .grid-3{grid-template-columns:1fr}
+      .brands{height:160px}
+    }
   </style>
 </head>
+
 <body>
 
   <!-- NAVBAR -->
-  <nav class="nav">
+  <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
-      <a class="brand" href="#top"><img src="./Images/extem-logo-full.png" alt="Extem Education" /></a>
-      <button class="hamburger" onclick="toggleMenu()">☰</button>
+      <a class="brand" href="#top" style="line-height:0;display:inline-block">
+        <!-- Only logo, no text -->
+        <img src="./Images/extem-logo-full.png" alt="Extem Education" style="display:block;height:46px;width:auto" />
+      </a>
+      <button class="hamburger" aria-label="Open menu" onclick="toggleMenu()">☰</button>
       <div id="menu" class="nav-links">
         <a href="#about">About</a>
         <a href="#courses">Courses</a>
@@ -120,6 +150,7 @@
   <header id="top" class="hero">
     <div class="container hero-grid">
       <div data-aos="fade-up">
+        <div class="eyebrow"><span class="chip">Life Education that sticks</span></div>
         <h1 class="title">Bridge the gap between <span style="color:var(--brand)">school</span> and <span style="color:var(--brand-2)">real life</span>.</h1>
         <p class="subtitle">We help students grow confidence, communication, financial habits, and wellness—so they’re ready for exams <em>and</em> everyday life.</p>
         <div class="cta">
@@ -128,30 +159,47 @@
         </div>
       </div>
       <div class="lottie-wrap" data-aos="zoom-in">
-        <dotlottie-player src="https://lottie.host/7ab99d81-fb2e-4895-8393-3511f11d8f72/6lQk5FYevu.lottie" background="transparent" speed="1" style="width:340px;height:340px" loop autoplay></dotlottie-player>
+        <dotlottie-player src="https://lottie.host/7ab99d81-fb2e-4895-8393-3511f11d8f72/6lQk5FYevu.lottie" background="transparent" speed="1" style="width: 340px; height: 340px" loop autoplay></dotlottie-player>
       </div>
     </div>
   </header>
 
-  <!-- BRANDS -->
-  <div class="brands"><div class="container"><div class="marquee">
-    <img src="https://placehold.co/200x60?text=Partner+1" alt="Partner 1" />
-    <img src="https://placehold.co/200x60?text=Partner+2" alt="Partner 2" />
-    <img src="https://placehold.co/200x60?text=Partner+3" alt="Partner 3" />
-    <img src="https://placehold.co/200x60?text=Partner+4" alt="Partner 4" />
-    <img src="https://placehold.co/200x60?text=Partner+5" alt="Partner 5" />
-  </div></div></div>
+  <!-- BRAND ASSOCIATIONS (200px x full width) -->
+  <div class="brands" aria-label="Associated brands">
+    <div class="container" style="overflow:hidden">
+      <div class="marquee">
+        <img src="https://placehold.co/200x60?text=Partner+1" alt="Partner 1" />
+        <img src="https://placehold.co/200x60?text=Partner+2" alt="Partner 2" />
+        <img src="https://placehold.co/200x60?text=Partner+3" alt="Partner 3" />
+        <img src="https://placehold.co/200x60?text=Partner+4" alt="Partner 4" />
+        <img src="https://placehold.co/200x60?text=Partner+5" alt="Partner 5" />
+        <img src="https://placehold.co/200x60?text=Partner+1" alt="Partner 1 duplicate" aria-hidden="true" />
+        <img src="https://placehold.co/200x60?text=Partner+2" alt="Partner 2 duplicate" aria-hidden="true" />
+        <img src="https://placehold.co/200x60?text=Partner+3" alt="Partner 3 duplicate" aria-hidden="true" />
+        <img src="https://placehold.co/200x60?text=Partner+4" alt="Partner 4 duplicate" aria-hidden="true" />
+        <img src="https://placehold.co/200x60?text=Partner+5" alt="Partner 5 duplicate" aria-hidden="true" />
+      </div>
+    </div>
+  </div>
 
-  <main>
-    <!-- ABOUT -->
+  <main id="main">
+    <!-- ABOUT LIFE EDUCATION -->
     <section id="about" class="container">
       <div class="split">
-        <div class="lottie-wrap" data-aos="fade-right">
-          <dotlottie-wc src="https://lottie.host/72ae0de7-c0ab-40a0-9008-26608de1fed5/2HEXnZZyM3.lottie" style="width:320px;height:320px" autoplay loop></dotlottie-wc>
+        <!-- LOTTIE on the LEFT -->
+        <div class="lottie-wrap" data-aos="fade-right" style="min-height:360px;display:flex;align-items:center;justify-content:center">
+          <dotlottie-wc
+            src="https://lottie.host/72ae0de7-c0ab-40a0-9008-26608de1fed5/2HEXnZZyM3.lottie"
+            style="width: 320px; height: 320px; max-width:100%"
+            autoplay
+            loop>
+          </dotlottie-wc>
         </div>
+
+        <!-- TEXT on the RIGHT -->
         <div data-aos="fade-left">
-          <h2>What is <span style="color:var(--brand)">Life Education</span>?</h2>
-          <p style="color:var(--muted)">It’s the practical skillset that makes academics come alive...</p>
+          <h2 style="margin:0 0 .6rem">What is <span style="color:var(--brand)">Life Education</span>?</h2>
+          <p style="color:var(--muted)">It’s the practical skillset that makes academics come alive. We teach confidence, communication, healthy habits, money sense, and digital balance—so students show up as their best selves at school, at home, and in the world.</p>
           <ul>
             <li>Confidence &amp; Public Speaking</li>
             <li>Faster Math &amp; Problem Solving</li>
@@ -159,32 +207,171 @@
             <li>Wellness, First Aid &amp; Safety (B.A.S.E)</li>
             <li>Healthy Digital &amp; Mobile Use</li>
           </ul>
-          <div class="cta"><a class="btn btn-ghost" href="#contact">Talk to Us</a></div>
+          <div class="cta" style="margin-top:1rem">
+            <a class="btn btn-ghost" href="#contact">Talk to Us</a>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- COURSES -->
-    <section id="courses" class="container">…</section>
+    <section id="courses" class="container">
+      <div style="display:flex;align-items:end;justify-content:space-between;margin-bottom:1rem">
+        <div>
+          <h2 style="margin:0">Our Core Courses</h2>
+          <p style="color:var(--muted);margin:.35rem 0 0">Premium, practice-first programs in small batches.</p>
+        </div>
+        <a class="btn btn-ghost" href="#contact">Get Syllabus</a>
+      </div>
+
+      <div class="grid-3">
+        <article class="course card" data-aos="fade-up">
+          <span class="tag">Premium</span>
+          <h4>Find Your Voice (FYV)</h4>
+          <p>Speak clearly, confidently, and authentically—with posture, gestures, and audience connection.</p>
+        </article>
+        <article class="course card" data-aos="fade-up" data-aos-delay="80">
+          <h4>Math-Trix</h4>
+          <p>Speed math & mental models that turn low grades into high scores through daily micro-practice.</p>
+        </article>
+        <article class="course card" data-aos="fade-up" data-aos-delay="120">
+          <h4>Financial Compass</h4>
+          <p>Money habits for teens: earn, save, spend, and invest with clarity and confidence.</p>
+        </article>
+        <article class="course card" data-aos="fade-up">
+          <h4>B.A.S.E</h4>
+          <p>Body Awareness & Safety Education: boundaries, first aid, wellness, and personal safety.</p>
+        </article>
+        <article class="course card" data-aos="fade-up" data-aos-delay="80">
+          <h4>AI Mastery</h4>
+          <p>Use AI as a study partner—research faster, create responsibly, and boost productivity.</p>
+        </article>
+        <article class="course card" data-aos="fade-up" data-aos-delay="120">
+          <h4>…and more</h4>
+          <p>Guided projects, challenges, and community events to keep skills sharp and relevant.</p>
+        </article>
+      </div>
+    </section>
 
     <!-- GUIDANCE WING -->
-    <section id="guidance" class="container">…</section>
+    <section id="guidance" class="container">
+      <div class="grid-2">
+        <div data-aos="fade-right">
+          <h2 style="margin-top:0">Guidance Wing</h2>
+          <p style="color:var(--muted)">Short, high-impact workshops for students and parents.</p>
+          <ul>
+            <li>Career orientation & skill mapping</li>
+            <li>Exam stress management</li>
+            <li>Goal setting & habit systems</li>
+            <li>Anti-drug & mindful mobile use</li>
+            <li>Wellness, first aid & more</li>
+          </ul>
+        </div>
+        <div class="card" style="padding:1.2rem" data-aos="fade-left">
+          <h3 style="margin-top:0">How it works</h3>
+          <ol>
+            <li>Flipped classroom: learn with micro-videos in the app</li>
+            <li>Small-batch live sessions (online/offline)</li>
+            <li>Gamified weekly challenges</li>
+            <li>Confidence journal + final showcase</li>
+          </ol>
+          <div class="cta" style="margin-top:.6rem">
+            <a class="btn btn-primary" href="#contact">Invite us to your school</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- TESTIMONIALS -->
-    <section id="testimonials" class="container">…</section>
+    <section id="testimonials" class="container">
+      <h2 style="margin-top:0">What parents & students say</h2>
+      <div class="grid-3">
+        <blockquote class="quote" data-aos="zoom-in">“My son now leads morning assembly confidently. FYV changed how he thinks about himself.” <small>— Parent, Grade 9</small></blockquote>
+        <blockquote class="quote" data-aos="zoom-in" data-aos-delay="80">“Math-Trix made numbers feel simple. I finished exams with time to spare.” <small>— Student, Grade 10</small></blockquote>
+        <blockquote class="quote" data-aos="zoom-in" data-aos-delay="120">“The anti-drug and digital balance session started real conversations at home.” <small>— Parent, Grade 8</small></blockquote>
+      </div>
+    </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="container">…</section>
+    <!-- CONTACT / CTA -->
+    <section id="contact" class="container">
+      <div class="card" style="padding:1.2rem" data-aos="fade-up">
+        <div class="grid-2">
+          <div>
+            <h2 style="margin:0 0 .4rem">Join the EXTEM Community</h2>
+            <p style="color:var(--muted)">Get the brochure, syllabus, and upcoming webinar invites.</p>
+            <ul>
+              <li>Small-batch premium classes (14–16 per cohort)</li>
+              <li>Live Zoom + app-based learning</li>
+              <li>24×7 mentoring chat</li>
+            </ul>
+          </div>
+          <form onsubmit="event.preventDefault(); alert('Thanks! We\'ll contact you soon.');">
+            <div class="grid-2" style="gap:.8rem">
+              <input required class="field" placeholder="Your name" />
+              <input required type="email" class="field" placeholder="Email" />
+            </div>
+            <input required class="field" placeholder="Mobile number" style="margin-top:.8rem" />
+            <select class="field" style="margin-top:.8rem">
+              <option selected>Interested in…</option>
+              <option>Find Your Voice</option>
+              <option>Math-Trix</option>
+              <option>Financial Compass</option>
+              <option>B.A.S.E</option>
+              <option>AI Mastery</option>
+              <option>Guidance Workshop</option>
+            </select>
+            <div class="cta" style="margin-top:1rem">
+              <button class="btn btn-primary" type="submit">Request Details</button>
+              <a class="btn btn-ghost" href="#top">Back to top</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- FOOTER -->
-  <footer>…</footer>
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+          <!-- full logo in footer -->
+          <img src="./Images/extem-logo-full.png" alt="Extem Education" height="28" />
+        </div>
+        <p style="margin:.2rem 0;color:#c3daeb">Life education for confident, capable students.</p>
+      </div>
+      <div>
+        <p style="margin:.2rem 0 1rem;color:#c3daeb">Stay in the loop</p>
+        <div class="cta">
+          <a class="btn btn-ghost" href="#contact">Contact</a>
+          <a class="btn btn-ghost" href="#">WhatsApp Community</a>
+          <a class="btn btn-ghost" href="#">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:.9rem;border-top:1px solid rgba(255,255,255,.1);color:#9ec5de">© <span id="year"></span> EXTEM Education. All rights reserved.</div>
+  </footer>
 
+  <!-- Minimal form styles & focus -->
+  <style>
+    .field{width:100%;padding:.9rem 1rem;border-radius:14px;border:1px solid rgba(11,15,20,.12);background:#fff;transition:.2s;border-color:rgba(11,15,20,.12)}
+    .field:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--ring)}
+  </style>
+
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
-    AOS.init({once:true,offset:80,duration:700,easing:'ease-out'});
-    document.getElementById('year').textContent=new Date().getFullYear();
-    function toggleMenu(){const el=document.getElementById('menu');const open=getComputedStyle(el).display!=='none';el.style.display=open?'none':'flex';el.style.flexDirection='column'}
+    AOS.init({ once:true, offset: 80, duration: 700, easing: 'ease-out' });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function toggleMenu(){
+      const el = document.getElementById('menu');
+      const isOpen = getComputedStyle(el).display !== 'none';
+      el.style.display = isOpen ? 'none' : 'flex';
+      el.style.flexDirection = 'column';
+      el.style.alignItems = 'flex-start';
+      el.style.gap = '.3rem';
+      el.style.padding = '.4rem 0';
+    }
   </script>
 </body>
 </html>
